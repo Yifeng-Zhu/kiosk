@@ -9,17 +9,16 @@ CSV_URL="https://raw.githubusercontent.com/Yifeng-Zhu/kiosk/main/kiosk.csv"
 # Local path to store the downloaded CSV file temporarily
 CSV_FILE="/tmp/kiosk.csv"
 
-  # Download the CSV file to the temporary location
-  curl -o $CSV_FILE $CSV_URL
+# Download the CSV file to the temporary location
+curl -o $CSV_FILE $CSV_URL
 
-  # Get the MAC address of the Raspberry Pi
-  MAC_ADDRESS=$(cat /sys/class/net/wlan0/address)
+# Get the MAC address of the Raspberry Pi
+MAC_ADDRESS=$(cat /sys/class/net/wlan0/address)
 
-  # Find the corresponding link in the CSV file by matching the MAC address
-  LINK=$(grep "$MAC_ADDRESS" "$CSV_FILE" | cut -d',' -f3)
+# Find the corresponding link in the CSV file by matching the MAC address
+LINK=$(grep "$MAC_ADDRESS" "$CSV_FILE" | cut -d',' -f3)
 
-  echo $LINK
-
+echo $LINK
 
 set +x
 
