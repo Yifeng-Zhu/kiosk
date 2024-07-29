@@ -1,34 +1,26 @@
 #!/bin/bash
 
-# Export the display environment variable for GUI applications
 export DISPLAY=:0
 
-# URL to the CSV file in the GitHub repository
-CSV_URL="https://raw.githubusercontent.com/Yifeng-Zhu/kiosk/main/kiosk.csv"
+sleep 10
 
-# Local path to store the downloaded CSV file temporarily
+CSV_URL="https://raw.githubusercontent.com/Yifeng-Zhu/kiosk/main/kiosk.csv"
 CSV_FILE="/tmp/kiosk.csv"
 
-# Download the CSV file to the temporary location
-curl -o $CSV_FILE $CSV_URL
+get_link_from_csv() {
 
-# Get the MAC address of the Raspberry Pi
-MAC_ADDRESS=$(cat /sys/class/net/wlan0/address)
+  curl -o $CSV_FILE $CSV_URL
 
-# Find the corresponding link in the CSV file by matching the MAC address
-LINK=$(grep "$MAC_ADDRESS" "$CSV_FILE" | cut -d',' -f3)
+  MAC_ADDRESS=$(cat /sys/class/net/wlan0/address)
 
-echo $LINK
+  LINK=$(grep "$MAC_ADDRESS" "$CSV_FILE" | cut -d',' -f3)
 
-set +x
+  echo $LINK
+}
 
+LINK=$(get_link_from_csv)
 
-# Wait for a few seconds to ensure everything is ready
-sleep 5
-
-# Launch Firefox in kiosk mode with the found link
 firefox --kiosk "$LINK" &
-# Move the mouse pointer out of the way
 xdotool mousemove 0 4096
 
 # Start an infinite loop to periodically check for updates and refresh the page
