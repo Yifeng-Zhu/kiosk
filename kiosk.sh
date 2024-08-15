@@ -60,7 +60,7 @@ xdotool mousemove 0 4096
 # Start an infinite loop to periodically check for updates and refresh the page
 while true 
 do
-  # Wait for an hour
+  # Wait for 10 minutes
   sleep 600
 
   log_message "Checking for updates to the presentation link."
